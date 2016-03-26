@@ -198,8 +198,7 @@ public abstract class MieleApplianceHandler<E extends Enum<E> & ApplianceChannel
                     }
 
                     if (selector != null && !selector.isProperty()) {
-                        ChannelUID theChannelUID = new ChannelUID(getThing().getThingTypeUID(),
-                                getThing().getUID().getId(), selector.getChannelID());
+                        ChannelUID theChannelUID = new ChannelUID(getThing().getUID(), selector.getChannelID());
                         logger.trace("Update state of {} with '{}'",
                                 new Object[] { theChannelUID.toString(), dpValue });
 
