@@ -104,7 +104,7 @@ public class MieleApplianceDiscoveryService extends AbstractDiscoveryService imp
             }
 
             DiscoveryResult discoveryResult = DiscoveryResultBuilder.create(thingUID).withProperties(properties)
-                    .withBridge(bridgeUID).withLabel(thingUID.getId()).build();
+                    .withBridge(bridgeUID).withLabel(getId(appliance)).build();
 
             thingDiscovered(discoveryResult);
         } else {
@@ -150,10 +150,7 @@ public class MieleApplianceDiscoveryService extends AbstractDiscoveryService imp
                     StringUtils.lowerCase(modelID.replaceAll("[^a-zA-Z0-9_]", "_")));
 
             if (getSupportedThingTypes().contains(thingTypeUID)) {
-                String thingApplianceId = StringUtils
-                        .right(appliance.UID, appliance.UID.length() - new String("hdm:ZigBee:").length())
-                        .replaceAll("[^a-zA-Z0-9_]", "_");
-                ThingUID thingUID = new ThingUID(thingTypeUID, bridgeUID, thingApplianceId);
+                ThingUID thingUID = new ThingUID(thingTypeUID, bridgeUID, getId(appliance));
                 return thingUID;
             } else {
                 return null;
@@ -161,6 +158,11 @@ public class MieleApplianceDiscoveryService extends AbstractDiscoveryService imp
         } else {
             return null;
         }
+    }
+
+    private String getId(HomeDevice appliance) {
+        return StringUtils.right(appliance.UID, appliance.UID.length() - new String("hdm:ZigBee:").length())
+                .replaceAll("[^a-zA-Z0-9_]", "_");
     }
 
 }
