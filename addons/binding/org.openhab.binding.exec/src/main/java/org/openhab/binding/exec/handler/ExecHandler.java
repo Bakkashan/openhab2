@@ -30,6 +30,7 @@ import org.eclipse.smarthome.core.transform.TransformationException;
 import org.eclipse.smarthome.core.transform.TransformationHelper;
 import org.eclipse.smarthome.core.transform.TransformationService;
 import org.eclipse.smarthome.core.types.Command;
+import org.eclipse.smarthome.core.types.RefreshType;
 import org.openhab.binding.exec.ExecBindingConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,10 +66,14 @@ public class ExecHandler extends BaseThingHandler {
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
 
-        if (channelUID.getId().equals(ExecBindingConstants.EXECUTE)) {
-            if (command instanceof OnOffType) {
-                if (command == OnOffType.ON) {
-                    scheduler.schedule(periodicExecutionRunnable, 0, TimeUnit.SECONDS);
+        if (command instanceof RefreshType) {
+            // Placeholder for later refinement
+        } else {
+            if (channelUID.getId().equals(ExecBindingConstants.EXECUTE)) {
+                if (command instanceof OnOffType) {
+                    if (command == OnOffType.ON) {
+                        scheduler.schedule(periodicExecutionRunnable, 0, TimeUnit.SECONDS);
+                    }
                 }
             }
         }
@@ -184,8 +189,9 @@ public class ExecHandler extends BaseThingHandler {
                 String transformedResponse = StringUtils.chomp(outputBuilder.toString());
                 String transformation = (String) getConfig().get(TRANSFORM);
 
-                if (transformation != null && transformation.length() > 0)
+                if (transformation != null && transformation.length() > 0) {
                     transformedResponse = transformResponse(transformedResponse, transformation);
+                }
 
                 updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.OUTPUT),
                         new StringType(transformedResponse));
