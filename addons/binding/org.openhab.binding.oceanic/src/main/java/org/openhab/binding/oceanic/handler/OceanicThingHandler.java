@@ -19,6 +19,7 @@ import org.eclipse.smarthome.core.thing.ChannelUID;
 import org.eclipse.smarthome.core.thing.Thing;
 import org.eclipse.smarthome.core.thing.ThingStatus;
 import org.eclipse.smarthome.core.types.Command;
+import org.eclipse.smarthome.core.types.RefreshType;
 import org.eclipse.smarthome.core.types.State;
 import org.eclipse.smarthome.core.types.Type;
 import org.eclipse.smarthome.core.types.TypeParser;
@@ -152,6 +153,11 @@ public class OceanicThingHandler extends SerialThingHandler {
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
+
+        if (command instanceof RefreshType) {
+            // Placeholder for later refinement
+            return;
+        }
 
         String commandAsString = command.toString();
         String channelID = channelUID.getId();
