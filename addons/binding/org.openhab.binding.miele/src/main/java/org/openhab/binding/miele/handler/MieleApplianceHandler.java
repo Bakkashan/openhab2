@@ -23,6 +23,7 @@ import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.thing.binding.BaseThingHandler;
 import org.eclipse.smarthome.core.thing.binding.ThingHandler;
 import org.eclipse.smarthome.core.types.Command;
+import org.eclipse.smarthome.core.types.RefreshType;
 import org.eclipse.smarthome.core.types.UnDefType;
 import org.openhab.binding.miele.handler.MieleBridgeHandler.DeviceClassObject;
 import org.openhab.binding.miele.handler.MieleBridgeHandler.DeviceMetaData;
@@ -121,6 +122,10 @@ public abstract class MieleApplianceHandler<E extends Enum<E> & ApplianceChannel
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
         // Here we could handle commands that are common to all Miele Appliances, but so far I don't know of any
+        if (command instanceof RefreshType) {
+            // Placeholder for future refinement
+            return;
+        }
     }
 
     @Override
