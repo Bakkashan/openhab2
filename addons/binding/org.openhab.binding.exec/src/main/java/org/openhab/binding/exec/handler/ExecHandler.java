@@ -115,13 +115,13 @@ public class ExecHandler extends BaseThingHandler {
 
             if (commandLine != null && !commandLine.isEmpty()) {
 
-                updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.EXECUTE), OnOffType.ON);
+                updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.RUNNING), OnOffType.ON);
 
                 // For some obscure reason, when using Apache Common Exec, or using a straight implementation of
                 // Runtime.Exec(), on Mac OS X (Yosemite and El Capitan), there seems to be a lock race condition
                 // randomly appearing (on UNIXProcess) *when* one tries to gobble up the stdout and sterr output of the
                 // subprocess in separate threads. It seems to be common "wisdom" to do that in separate threads, but
-                // only when keeping everyting between .exec() and .waitfor() in the same thread, this lock race
+                // only when keeping everything between .exec() and .waitfor() in the same thread, this lock race
                 // condition seems to go away. This approach of not reading the outputs in separate threads *might* be a
                 // problem for external commands that generate a lot of output, but this will be dependent on the limits
                 // of the underlying operating system.
@@ -132,6 +132,9 @@ public class ExecHandler extends BaseThingHandler {
                 } catch (Exception e) {
                     logger.error("An exception occured while executing '{}' : '{}'",
                             new Object[] { commandLine.toString(), e.getMessage() });
+                    updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.RUNNING), OnOffType.OFF);
+                    updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.OUTPUT),
+                            new StringType(e.getMessage()));
                     return;
                 }
 
@@ -182,7 +185,7 @@ public class ExecHandler extends BaseThingHandler {
                     proc.destroyForcibly();
                 }
 
-                updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.EXECUTE), OnOffType.OFF);
+                updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.RUNNING), OnOffType.OFF);
                 updateState(new ChannelUID(getThing().getUID(), ExecBindingConstants.EXIT),
                         new DecimalType(proc.exitValue()));
 
