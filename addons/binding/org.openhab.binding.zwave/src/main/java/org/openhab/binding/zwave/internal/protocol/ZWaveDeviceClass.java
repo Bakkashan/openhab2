@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015 openHAB UG (haftungsbeschraenkt) and others.
+ * Copyright (c) 2014-2016 by the respective copyright holders.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -233,7 +233,7 @@ public class ZWaveDeviceClass {
         STATIC_CONTROLLER(0x02, "Static Controller"),
         AV_CONTROL_POINT(0x03, "A/V Control Point"),
         DISPLAY(0x06, "Display"),
-        GARAGE_DOOR(0x07, "Garage Door"), // Need to change to NOTIFICATION_SENSOR
+        SENSOR_NOTIFICATION(0x07, "Sensor Notification"),
         THERMOSTAT(0x08, "Thermostat"),
         WINDOW_COVERING(0x09, "Window Covering"),
         REPEATER_SLAVE(0x0f, "Repeater Slave"),
@@ -316,7 +316,7 @@ public class ZWaveDeviceClass {
                     return new CommandClass[0];
                 case REMOTE_CONTROLLER:
                 case STATIC_CONTROLLER:
-                case GARAGE_DOOR:
+                case SENSOR_NOTIFICATION:
                 case REPEATER_SLAVE:
                 case TOGGLE_SWITCH:
                 case REMOTE_SWITCH:
@@ -370,10 +370,15 @@ public class ZWaveDeviceClass {
         PORTABLE_REMOTE_CONTROLLER(1, Generic.REMOTE_CONTROLLER, "Portable Remote Controller"),
         PORTABLE_SCENE_CONTROLLER(2, Generic.REMOTE_CONTROLLER, "Portable Scene Controller"),
         PORTABLE_INSTALLER_TOOL(3, Generic.REMOTE_CONTROLLER, "Portable Installer Tool"),
+        AV_REMOTE_CONTROLLER(4, Generic.REMOTE_CONTROLLER, "AV Remote Controller"),
+        SIMPLE_REMOTE_CONTROLLER(6, Generic.REMOTE_CONTROLLER, "Simple Remote Controller"),
 
         PC_CONTROLLER(1, Generic.STATIC_CONTROLLER, "PC Controller"),
         SCENE_CONTROLLER(2, Generic.STATIC_CONTROLLER, "Scene Controller"),
         INSTALLER_TOOL(3, Generic.STATIC_CONTROLLER, "Static Installer Tool"),
+        SET_TOP_BOX_CONTROLLER(4, Generic.STATIC_CONTROLLER, "Set-Top Box Controller"),
+        SUB_SYSTEM_CONTROLLER(4, Generic.STATIC_CONTROLLER, "Sub-System Controller"),
+        TV_CONTROLLER(6, Generic.STATIC_CONTROLLER, "TV Controller"),
 
         SATELLITE_RECEIVER(4, Generic.AV_CONTROL_POINT, "Satellite Receiver"),
         SATELLITE_RECEIVER_V2(17, Generic.AV_CONTROL_POINT, "Satellite Receiver V2"),
@@ -429,8 +434,10 @@ public class ZWaveDeviceClass {
         ROUTING_SENSOR_MULTILEVEL(1, Generic.MULTILEVEL_SENSOR, "Routing Multilevel Sensor"),
 
         SIMPLE_METER(1, Generic.METER, "Simple Meter"),
+        ADVANCED_ENERGY_CONTROL(2, Generic.METER, "Advanced Energy Control"),
+        WHOLE_HOME_METER_SIMPLE(3, Generic.METER, "Whole Home Meter Simple"),
 
-        SIMPLE_GARAGE_DOOR(1, Generic.GARAGE_DOOR, "Simple Garage Door"),
+        NOTIFICATION_SENSOR(1, Generic.SENSOR_NOTIFICATION, "Notification Sensor"),
 
         DOOR_LOCK(1, Generic.ENTRY_CONTROL, "Door Lock"),
         ADVANCED_DOOR_LOCK(2, Generic.ENTRY_CONTROL, "Advanced Door Lock"),
@@ -550,7 +557,7 @@ public class ZWaveDeviceClass {
                 case SCENE_SWITCH_MULTILEVEL:
                 case SCENE_SWITCH_MULTILEVEL_DISCONTINUED:
                     return new CommandClass[] { CommandClass.SCENE_ACTIVATION, CommandClass.SCENE_ACTUATOR_CONF,
-                            CommandClass.SWITCH_ALL, CommandClass.MANUFACTURER_SPECIFIC };
+                            CommandClass.MANUFACTURER_SPECIFIC };
                 case MOTOR_MULTIPOSITION:
                     return new CommandClass[] { CommandClass.VERSION, CommandClass.MANUFACTURER_SPECIFIC };
                 case MOTOR_CONTROL_CLASS_A:
@@ -580,6 +587,10 @@ public class ZWaveDeviceClass {
                 case SIMPLE_METER:
                     return new CommandClass[] { CommandClass.METER, CommandClass.MANUFACTURER_SPECIFIC,
                             CommandClass.VERSION };
+                case ADVANCED_ENERGY_CONTROL:
+                    return new CommandClass[] { CommandClass.METER_TBL_CONFIG, CommandClass.METER_TBL_MONITOR,
+                            CommandClass.MANUFACTURER_SPECIFIC, CommandClass.VERSION };
+
                 case ALARM_SENSOR_ROUTING_BASIC:
                 case SMOKE_SENSOR_ROUTING_BASIC:
                     return new CommandClass[] { CommandClass.SENSOR_ALARM, CommandClass.MANUFACTURER_SPECIFIC,

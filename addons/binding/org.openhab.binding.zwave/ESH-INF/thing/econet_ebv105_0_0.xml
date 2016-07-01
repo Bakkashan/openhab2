@@ -9,7 +9,7 @@
     <label>EBV-105 Wireless Water Shutoff Valve</label>
     <description><![CDATA[
 Wireless Water Shutoff Valve<br /><h1>Overview</h1><p>The EBV105 water shutoff controller is easy to install and configure. No special tools or plumbing required. The included clamp supports installation </p>
-    !]]></description>
+    ]]></description>
 
     <!-- CHANNEL DEFINITIONS -->
     <channels>
@@ -24,12 +24,13 @@ Wireless Water Shutoff Valve<br /><h1>Overview</h1><p>The EBV105 water shutoff c
     <!-- DEVICE PROPERTY DEFINITIONS -->
     <properties>
       <property name="vendor">EcoNet Controls</property>
-      <property name="model">EBV-105</property>
+      <property name="modelId">EBV-105</property>
       <property name="manufacturerId">0157</property>
       <property name="manufacturerRef">0003:0512</property>
       <property name="defaultAssociations">1</property>
     </properties>
 
+    <!-- CONFIGURATION DESCRIPTIONS -->
     <config-description>
 
       <!-- ASSOCIATION DEFINITIONS -->
@@ -38,7 +39,7 @@ Wireless Water Shutoff Valve<br /><h1>Overview</h1><p>The EBV105 water shutoff c
         <label>Association Groups</label>
       </parameter-group>
 
-      <parameter name="group_1" type="text" groupName="association"  multiple="true">
+      <parameter name="group_1" type="text" groupName="association" multiple="true">
         <label>1: Group 1</label>
         <multipleLimit>5</multipleLimit>
       </parameter>

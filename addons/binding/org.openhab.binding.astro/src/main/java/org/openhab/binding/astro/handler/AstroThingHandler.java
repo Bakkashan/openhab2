@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015 openHAB UG (haftungsbeschraenkt) and others.
+ * Copyright (c) 2014-2016 by the respective copyright holders.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -91,6 +91,7 @@ public abstract class AstroThingHandler extends BaseThingHandler {
         if (validConfig) {
             logger.debug(thingConfig.toString());
             updateStatus(ThingStatus.ONLINE);
+            restartJobs();
         } else {
             updateStatus(ThingStatus.OFFLINE);
         }
@@ -141,7 +142,7 @@ public abstract class AstroThingHandler extends BaseThingHandler {
      * Publishes the channel with data if it's linked.
      */
     private void publishChannelIfLinked(Channel channel) {
-        if (isLinked(channel.getUID().getId())) {
+        if (isLinked(channel.getUID().getId()) && getPlanet() != null) {
             try {
                 updateState(channel.getUID(), PropertyUtils.getState(channel.getUID(), getPlanet()));
             } catch (Exception ex) {

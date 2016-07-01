@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015 openHAB UG (haftungsbeschraenkt) and others.
+ * Copyright (c) 2014-2016 by the respective copyright holders.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -31,6 +31,9 @@ public class ZWaveBindingConstants {
     public final static String CONFIGURATION_MASTER = "controller_master";
     public final static String CONFIGURATION_SUC = "controller_suc";
     public final static String CONFIGURATION_NETWORKKEY = "security_networkkey";
+    public final static String CONFIGURATION_SECUREINCLUSION = "security_inclusionmode";
+    public final static String CONFIGURATION_HEALTIME = "heal_time";
+    public final static String CONFIGURATION_INCLUSION_MODE = "inclusion_mode";
 
     public final static String CONFIGURATION_SWITCHALLMODE = "switchall_mode";
     public final static String CONFIGURATION_WAKEUPNODE = "wakeup_node";
@@ -38,6 +41,9 @@ public class ZWaveBindingConstants {
 
     public final static String CONFIGURATION_NODENAME = "nodename_name";
     public final static String CONFIGURATION_NODELOCATION = "nodename_location";
+
+    public final static String CONFIGURATION_POWERLEVEL_LEVEL = "powerlevel_level";
+    public final static String CONFIGURATION_POWERLEVEL_TIMEOUT = "powerlevel_timeout";
 
     public final static String CONFIGURATION_USERCODE = "usercode_";
 
@@ -70,6 +76,8 @@ public class ZWaveBindingConstants {
     public final static String PROPERTY_CLASS_BASIC = "zwave_class_basic";
     public final static String PROPERTY_CLASS_GENERIC = "zwave_class_generic";
     public final static String PROPERTY_CLASS_SPECIFIC = "zwave_class_specific";
+    public final static String PROPERTY_ZWPLUS_DEVICETYPE = "zwave_plus_devicetype";
+    public final static String PROPERTY_WAKEUP_TIME = "zwave_wakeup_time";
 
     public final static String CHANNEL_SERIAL_SOF = "serial_sof";
     public final static String CHANNEL_SERIAL_ACK = "serial_ack";
@@ -79,6 +87,8 @@ public class ZWaveBindingConstants {
 
     public final static String CHANNEL_CFG_BINDING = "binding";
     public final static String CHANNEL_CFG_COMMANDCLASS = "commandClass";
+
+    public final static Integer ACTION_CHECK_VALUE = new Integer(-232323);
 
     public final static Set<ThingTypeUID> SUPPORTED_BRIDGE_TYPES_UIDS = ImmutableSet.of(CONTROLLER_SERIAL);
 }

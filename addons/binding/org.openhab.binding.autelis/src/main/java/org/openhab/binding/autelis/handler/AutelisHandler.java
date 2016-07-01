@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015 openHAB UG (haftungsbeschraenkt) and others.
+ * Copyright (c) 2014-2016 by the respective copyright holders.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -142,10 +142,10 @@ public class AutelisHandler extends BaseThingHandler {
         logger.debug("Handler disposed.");
         stopPolling();
     }
-    
+
     @Override
     public void channelLinked(ChannelUID channelUID) {
-        //clear our cached values so the new channel gets updated
+        // clear our cached values so the new channel gets updated
         clearState(true);
     }
 
@@ -159,7 +159,10 @@ public class AutelisHandler extends BaseThingHandler {
              * caribbean, american, sunset, royalty, blue, green, red, white,
              * magenta, hold, recall
              */
-            getUrl(baseURL + "lights.cgi?val=" + command.toString(), TIMEOUT);
+            getUrl(baseURL + "/lights.cgi?val=" + command.toString(), TIMEOUT);
+        } else if (channelUID.getId().equals("reboot") && command == OnOffType.ON) {
+            getUrl(baseURL + "/userreboot.cgi?do=true" + command.toString(), TIMEOUT);
+            updateState(channelUID, OnOffType.OFF);
         } else {
             String[] args = channelUID.getId().split("-");
             if (args.length < 2) {

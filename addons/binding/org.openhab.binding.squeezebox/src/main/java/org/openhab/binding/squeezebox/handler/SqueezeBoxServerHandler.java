@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015 openHAB UG (haftungsbeschraenkt) and others.
+ * Copyright (c) 2014-2016 by the respective copyright holders.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -47,6 +47,7 @@ import org.slf4j.LoggerFactory;
  * @author Markus Wolters
  * @author Ben Jones
  * @author Dan Cunningham (OH2 Port)
+ * @author Daniel Walters - Fix player discovery when player name contains spaces
  */
 public class SqueezeBoxServerHandler extends BaseBridgeHandler {
     private Logger logger = LoggerFactory.getLogger(SqueezeBoxServerHandler.class);
@@ -399,9 +400,16 @@ public class SqueezeBoxServerHandler extends BaseBridgeHandler {
         }
 
         private void handlePlayersList(String message) {
-            String[] playersList = decode(message).split("playerindex:\\d+\\s");
+
+            // Split out players
+            String[] playersList = message.split("playerindex\\S*\\s");
             for (String playerParams : playersList) {
+
+                // For each player, split out parameters and decode parameter
                 String[] parameterList = playerParams.split("\\s");
+                for (int i = 0; i < parameterList.length; i++) {
+                    parameterList[i] = decode(parameterList[i]);
+                }
 
                 // parse out the MAC address first
                 String macAddress = null;

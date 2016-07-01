@@ -11,9 +11,16 @@
 
     <!-- CHANNEL DEFINITIONS -->
     <channels>
-      <channel id="battery-level" typeId="system.battery-level">
+      <channel id="sensor_binary" typeId="sensor_binary">
+        <label>Binary Sensor</label>
         <properties>
-          <property name="binding:*:PercentType">BATTERY</property>
+          <property name="binding:*:OnOffType">SENSOR_BINARY</property>
+        </properties>
+      </channel>
+      <channel id="sensor_temperature" typeId="sensor_temperature">
+        <label>Sensor (temperature)</label>
+        <properties>
+          <property name="binding:*:DecimalType">SENSOR_MULTILEVEL;type=TEMPERATURE</property>
         </properties>
       </channel>
       <channel id="alarm_burglar" typeId="alarm_burglar">
@@ -22,16 +29,9 @@
           <property name="binding:*:OnOffType">ALARM;type=BURGLAR</property>
         </properties>
       </channel>
-      <channel id="sensor_temperature" typeId="sensor_temperature">
-        <label>Sensor (temperature)</label>
+      <channel id="battery-level" typeId="system.battery-level">
         <properties>
-          <property name="binding:*:DecimalType">SENSOR_MULTILEVEL,BASIC;type=TEMPERATURE</property>
-        </properties>
-      </channel>
-      <channel id="sensor_binary" typeId="sensor_binary">
-        <label>Binary Sensor</label>
-        <properties>
-          <property name="binding:*:OnOffType">SENSOR_BINARY</property>
+          <property name="binding:*:PercentType">BATTERY</property>
         </properties>
       </channel>
     </channels>
@@ -39,12 +39,13 @@
     <!-- DEVICE PROPERTY DEFINITIONS -->
     <properties>
       <property name="vendor">Vision Security</property>
-      <property name="model">ZP3102</property>
+      <property name="modelId">ZP3102</property>
       <property name="manufacturerId">0109</property>
       <property name="manufacturerRef">2002:0201,2002:0202,2002:0203,2002:0204,2002:0205</property>
       <property name="defaultAssociations">1</property>
     </properties>
 
+    <!-- CONFIGURATION DESCRIPTIONS -->
     <config-description>
 
       <!-- PARAMETER DEFINITIONS -->
@@ -60,8 +61,7 @@
         <default>3</default>
       </parameter>
 
-      <parameter name="config_2_1" type="integer" groupName="configuration"
-                 min="0" max="1">
+      <parameter name="config_2_1" type="integer" groupName="configuration">
         <label>2: Celsius / Fahrenheit</label>
         <description>0 = Celsius, 1 = Fahrenheit</description>
         <default>0</default>
@@ -73,10 +73,10 @@
 
       <parameter name="config_3_1" type="integer" groupName="configuration"
                  min="1" max="7">
-        <label>3: Infrared sensor sensitivity adjustment,</label>
+        <label>3: Infrared sensor sensitivity adjustment</label>
         <description><![CDATA[
 1 is most sensitive, 7 is least<br /><h1>Overview</h1><p>(Parameter 3) Infrared sensor sensitivity adjustment, 7 levels sensitivity, 1 = most<br />sensitive, 7 = most insensitive, default values= 4</p>
-    !]]></description>
+        ]]></description>
         <default>4</default>
       </parameter>
 
@@ -86,7 +86,7 @@
         <label>Association Groups</label>
       </parameter-group>
 
-      <parameter name="group_1" type="text" groupName="association"  multiple="true">
+      <parameter name="group_1" type="text" groupName="association" multiple="true">
         <label>1: Control Command</label>
         <multipleLimit>5</multipleLimit>
       </parameter>

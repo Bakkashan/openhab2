@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015 openHAB UG (haftungsbeschraenkt) and others.
+ * Copyright (c) 2014-2016 by the respective copyright holders.
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -15,8 +15,8 @@ import java.util.Map;
 import java.util.TreeMap;
 
 import org.openhab.binding.zwave.internal.protocol.SerialMessage;
-import org.openhab.binding.zwave.internal.protocol.ZWaveSerialMessageException;
 import org.openhab.binding.zwave.internal.protocol.ZWaveController;
+import org.openhab.binding.zwave.internal.protocol.ZWaveSerialMessageException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,19 +65,19 @@ public abstract class ZWaveCommandProcessor {
     protected void checkTransactionComplete(SerialMessage lastSentMessage, SerialMessage latestIncomingMessage) {
         // Put the message in our table so it will be processed now or later
         incomingMessageTable.put(System.currentTimeMillis(), latestIncomingMessage);
+
         // First, check if we're waiting for an ACK from the controller
         // This is used for multi-stage transactions to ensure we get all parts of the
         // transaction before completing.
-        if (lastSentMessage.isAckPending()) {
-            logger.trace("Checking transaction complete: Message has Ack Pending: {}", lastSentMessage);
-            // Return until we get the ack, then come back and compare. This is necessary since, per ZWaveSendThread, we
-            // sometimes
-            // get the response before the ack. See ZWaveSendThreadcomment starting with "A transaction consists of (up
-            // to) 4 parts"
+        if (lastSentMessage == null || lastSentMessage.isAckPending()) {
+            logger.debug("Checking transaction complete: Message has Ack Pending: {}", lastSentMessage);
+            // Return until we get the ack, then come back and compare. This is necessary since, per ZWaveSendThread,
+            // we sometimes get the response before the ack. See ZWaveSendThreadcomment starting with "A transaction
+            // consists of (up to) 4 parts"
             return;
         }
 
-        logger.debug("Checking transaction complete: Sent message {}", lastSentMessage.toString());
+        logger.debug("Checking transaction complete: Sent {}", lastSentMessage.toString());
         final Iterator<Map.Entry<Long, SerialMessage>> iter = incomingMessageTable.entrySet().iterator();
         final long expired = System.currentTimeMillis() - 10000; // Discard responses from 10 seconds ago or longer
         while (iter.hasNext()) {
@@ -88,8 +88,8 @@ public abstract class ZWaveCommandProcessor {
                 continue;
             }
             final SerialMessage incomingMessage = entry.getValue();
-            logger.debug("Checking transaction complete: Recv message {}", incomingMessage.toString());
-            final boolean ignoreTransmissionCompleteMismatch = false; // TODO: chagne
+            logger.debug("Checking transaction complete: Recv {}", incomingMessage.toString());
+            final boolean ignoreTransmissionCompleteMismatch = false; // TODO: change
             if (incomingMessage.getMessageClass() == lastSentMessage.getExpectedReply()
                     && !incomingMessage.isTransactionCanceled()) {
                 logger.debug(
@@ -162,6 +162,8 @@ public abstract class ZWaveCommandProcessor {
             messageMap.put(SerialMessage.SerialMessageClass.AssignSucReturnRoute,
                     AssignSucReturnRouteMessageClass.class);
             messageMap.put(SerialMessage.SerialMessageClass.DeleteReturnRoute, DeleteReturnRouteMessageClass.class);
+            messageMap.put(SerialMessage.SerialMessageClass.DeleteSUCReturnRoute,
+                    DeleteSucReturnRouteMessageClass.class);
             messageMap.put(SerialMessage.SerialMessageClass.EnableSuc, EnableSucMessageClass.class);
             messageMap.put(SerialMessage.SerialMessageClass.GetRoutingInfo, GetRoutingInfoMessageClass.class);
             messageMap.put(SerialMessage.SerialMessageClass.GetVersion, GetVersionMessageClass.class);
